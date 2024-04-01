@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .calculator_python import calculator
+from .models import Consumer
 
 # TODO: Your list view should do the following tasks
 """
@@ -9,12 +10,7 @@ from .calculator_python import calculator
 -> Send the data to the template that will be rendered
 """
 
-
-def view1(request):
-    # Create the first view here.
-    pass
-
-def calculator_view(request):
+def calculate(request):
     if request.method == 'POST':
         consumption = [
             float(request.POST.get('consumption1', 0)),
@@ -29,7 +25,7 @@ def calculator_view(request):
 
         return render(
             request, 
-            'result.html', 
+            'calculator/result.html', 
             {
                 'annual_savings': annual_savings,
                 'monthly_savings': monthly_savings,
@@ -37,7 +33,23 @@ def calculator_view(request):
                 'coverage': coverage
             })
 
-    return render(request, 'form.html')
+    return render(request, 'calculator/form.html')
+
+def consumer_list(request):
+    consumers = Consumer.objects.all()
+    data = []
+
+    for consumer in consumers:
+        monthly_savings = consumer.consumption * consumer.distributor_tax * consumer.discount_rule.discount_value
+        annual_savings = monthly_savings * 12
+        data.append({
+            "data": consumer,
+            "monthly_savings": round(monthly_savings, 2),
+            "annual_savings": round(annual_savings, 2)
+        })
+
+
+    return render(request, 'consumer/list.html', {'consumers': data })
 
 # TODO: Your create view should do the following tasks
 """Create a view to perform inclusion of consumers. The view should do:

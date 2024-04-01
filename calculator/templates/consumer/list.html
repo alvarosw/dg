@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Consumer List</title>
+</head>
+
+<body>
+    <h2>Consumer List</h2>
+    <table border="1">
+        <tr>
+            <th>Nome do Consumidor</th>
+            <th>Documento</th>
+            <th>CEP</th>
+            <th>Cidade</th>
+            <th>Estado</th>
+            <th>Consumo(kWh)</th>
+            <th>Tarifa da Distribuidora</th>
+            <th>Desconto Aplicado</th>
+            <th>Cobertura</th>
+            <th>Economia Anual</th>
+            <th>Economia Mensal</th>
+        </tr>
+        {% for consumer in consumers %}
+        <tr>
+            <td>{{ consumer.data.name }}</td>
+            <td>{{ consumer.data.document }}</td>
+            <td>{{ consumer.data.zip_code|default_if_none:""}}</td>
+            <td>{{ consumer.data.city }}</td>
+            <td>{{ consumer.data.state }}</td>
+            <td>{{ consumer.data.consumption }}</td>
+            <td>{{ consumer.data.distributor_tax }}</td>
+            <td>{% widthratio consumer.data.discount_rule.discount_value 1 100 %}%</td>
+            <td>{% widthratio consumer.data.discount_rule.cover_value 1 100 %}%</td>
+            <td>{{ consumer.annual_savings }}</td>
+            <td>{{ consumer.monthly_savings }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
