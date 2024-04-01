@@ -1,5 +1,22 @@
 from django.db import models
+from enum import Enum
 
+class ConsumerType(Enum):
+    RESIDENCIAL = 'Residencial'
+    COMERCIAL = 'Comercial'
+    INDUSTRIAL = 'Industrial'
+
+class ConsumptionRange(Enum):
+    LESS_THAN_10K = '< 10.000 kWh'
+    BETWEEN_10K_AND_20K = '>= 10.000 kWh e <= 20.000 kWh'
+    MORE_THAN_20K = '> 20.000 kWh'
+
+
+class DiscountRules(models.Model):
+    consumer_type = models.CharField("Tipo de Consumidor", max_length=128, choices=[(tag.value, tag.value) for tag in ConsumerType])
+    consumption_range = models.CharField("Faixa de Consumo", max_length=128, choices=[(tag.value, tag.value) for tag in ConsumptionRange])
+    cover_value = models.FloatField("Valor da Cobertura")
+    discount_value = models.FloatField("Valor do Desconto")
 
 class Consumer(models.Model):
     name = models.CharField("Nome do Consumidor", max_length=128)
@@ -11,8 +28,7 @@ class Consumer(models.Model):
     distributor_tax = models.FloatField(
         "Tarifa da Distribuidora", blank=True, null=True
     )
-    #  create the foreign key for discount rule model here
-
+    discount_rule = models.ForeignKey(DiscountRules, on_delete=models.CASCADE, verbose_name="Regra de Desconto", null=True, blank=True)
 
 # TODO: Create the model DiscountRules below
 """Fields:
