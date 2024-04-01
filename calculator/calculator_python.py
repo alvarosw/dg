@@ -2,12 +2,39 @@ def calculator(consumption: list, distributor_tax: float, tax_type: str) -> tupl
     """
     returns a tuple of floats contained anual savings, monthly savings, applied_discount and coverage
     """
-    annual_savings = 0
-    monthly_savings = 0
-    applied_discount = 0
-    coverage = 0
+    average_consumption = sum(consumption) / len(consumption)
 
-    # your code here #
+    if average_consumption < 10000:
+        if tax_type == "Residencial":
+            applied_discount = 0.18
+        elif tax_type == "Comercial":
+            applied_discount = 0.16
+        elif tax_type == "Industrial":
+            applied_discount = 0.12
+    elif 10000 <= average_consumption <= 20000:
+        if tax_type == "Residencial":
+            applied_discount = 0.22
+        elif tax_type == "Comercial":
+            applied_discount = 0.18
+        elif tax_type == "Industrial":
+            applied_discount = 0.15
+    else:
+        if tax_type == "Residencial":
+            applied_discount = 0.25
+        elif tax_type == "Comercial":
+            applied_discount = 0.22
+        elif tax_type == "Industrial":
+            applied_discount = 0.18
+
+    monthly_savings = average_consumption * distributor_tax * applied_discount
+    annual_savings = monthly_savings * 12
+
+    if average_consumption < 10000:
+        coverage = 0.9
+    elif 10000 <= average_consumption <= 20000:
+        coverage = 0.95
+    elif average_consumption > 20000:
+        coverage = 0.99
 
     return (
         round(annual_savings, 2),
@@ -15,7 +42,6 @@ def calculator(consumption: list, distributor_tax: float, tax_type: str) -> tupl
         applied_discount,
         coverage,
     )
-
 
 if __name__ == "__main__":
     print("Testing...")

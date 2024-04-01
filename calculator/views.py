@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .calculator_python import calculator
 
 # TODO: Your list view should do the following tasks
 """
@@ -13,6 +14,30 @@ def view1(request):
     # Create the first view here.
     pass
 
+def calculator_view(request):
+    if request.method == 'POST':
+        consumption = [
+            float(request.POST.get('consumption1', 0)),
+            float(request.POST.get('consumption2', 0)),
+            float(request.POST.get('consumption3', 0))
+        ]
+
+        distributor_tax = float(request.POST.get('distributor_tax', 0))
+        tax_type = request.POST.get('tax_type', '')
+
+        annual_savings, monthly_savings, applied_discount, coverage = calculator(consumption, distributor_tax, tax_type)
+
+        return render(
+            request, 
+            'result.html', 
+            {
+                'annual_savings': annual_savings,
+                'monthly_savings': monthly_savings,
+                'applied_discount': applied_discount,
+                'coverage': coverage
+            })
+
+    return render(request, 'form.html')
 
 # TODO: Your create view should do the following tasks
 """Create a view to perform inclusion of consumers. The view should do:

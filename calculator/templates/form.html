@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+</head>
+
+<body>
+  <h2>Energy Consumption Calculator</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="consumption1">Consumption 1:</label>
+    <input type="number" name="consumption1" required><br>
+
+    <label for="consumption2">Consumption 2:</label>
+    <input type="number" name="consumption2" required><br>
+
+    <label for="consumption3">Consumption 3:</label>
+    <input type="number" name="consumption3" required><br>
+
+    <label for="distributor_tax">Distributor Tax:</label>
+    <input type="number" step="any" name="distributor_tax" required><br>
+
+    <label for="tax_type">Tax Type:</label>
+    <select name="tax_type" required>
+      <option value="Residencial">Residential</option>
+      <option value="Comercial">Commercial</option>
+      <option value="Industrial">Industrial</option>
+    </select><br>
+
+    <input type="submit" value="Calculate">
+  </form>
+</body>
+
+</html>
