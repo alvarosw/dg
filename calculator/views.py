@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .calculator_python import calculator
 from .models import Consumer
+from .forms import CalculatorForm
 
 # TODO: Your list view should do the following tasks
 """
@@ -12,28 +13,36 @@ from .models import Consumer
 
 def calculate(request):
     if request.method == 'POST':
-        consumption = [
-            float(request.POST.get('consumption1', 0)),
-            float(request.POST.get('consumption2', 0)),
-            float(request.POST.get('consumption3', 0))
-        ]
+        form = CalculatorForm(request.POST)
+        
+        if form.is_valid():
+            (
+                annual_savings,
+                monthly_savings,
+                applied_discount,
+                coverage
+            ) = calculator(
+                [
+                    form.cleaned_data['consumption1'],
+                    form.cleaned_data['consumption2'],
+                    form.cleaned_data['consumption3']
+                ],
+                form.cleaned_data['distributor_tax'],
+                form.cleaned_data['tax_type']
+            )
 
-        distributor_tax = float(request.POST.get('distributor_tax', 0))
-        tax_type = request.POST.get('tax_type', '')
+            return render(
+                request, 
+                'calculator/result.html', 
+                {
+                    'annual_savings': annual_savings,
+                    'monthly_savings': monthly_savings,
+                    'applied_discount': applied_discount,
+                    'coverage': coverage
+                })
 
-        annual_savings, monthly_savings, applied_discount, coverage = calculator(consumption, distributor_tax, tax_type)
-
-        return render(
-            request, 
-            'calculator/result.html', 
-            {
-                'annual_savings': annual_savings,
-                'monthly_savings': monthly_savings,
-                'applied_discount': applied_discount,
-                'coverage': coverage
-            })
-
-    return render(request, 'calculator/form.html')
+    form = CalculatorForm()
+    return render(request, 'calculator/form.html', { 'form': form })
 
 def consumer_list(request):
     consumers = Consumer.objects.all().select_related('discount_rule')
