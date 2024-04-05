@@ -36,16 +36,21 @@ def calculate(request):
     return render(request, 'calculator/form.html')
 
 def consumer_list(request):
-    consumers = Consumer.objects.all()
+    consumers = Consumer.objects.all().select_related('discount_rule')
     data = []
 
     for consumer in consumers:
-        monthly_savings = consumer.consumption * consumer.distributor_tax * consumer.discount_rule.discount_value
-        annual_savings = monthly_savings * 12
+        monthly_savings = (
+            consumer.consumption *
+            consumer.distributor_tax *
+            consumer.discount_rule.discount_value *
+            consumer.discount_rule.cover_value
+        )
+        
         data.append({
             "data": consumer,
             "monthly_savings": round(monthly_savings, 2),
-            "annual_savings": round(annual_savings, 2)
+            "annual_savings": round(monthly_savings * 12, 2)
         })
 
 
