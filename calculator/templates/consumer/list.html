@@ -1,54 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Consumidores</title>
-</head>
+{% block title %}
+Consumidor
+{% endblock %}
 
-<body>
-    <h2>Lista de Consumidores</h2>
-    <form method="GET">
-        {{ filter_form }}
-        <button type="submit">Filtrar</button>
-    </form>
+{% block content %}
+<h2>Lista de Consumidores</h2>
+<form method="GET">
+    {{ filter_form }}
+    <button type="submit">Filtrar</button>
+</form>
 
-    <table border="1" style="margin-top: 10px">
-        <tr>
-            <th>Nome do Consumidor</th>
-            <th>Documento</th>
-            <th>CEP</th>
-            <th>Cidade</th>
-            <th>Estado</th>
-            <th>Consumo(kWh)</th>
-            <th>Tarifa da Distribuidora</th>
-            <th>Desconto Aplicado</th>
-            <th>Cobertura</th>
-            <th>Economia Anual</th>
-            <th>Economia Mensal</th>
-        </tr>
-        {% for consumer in consumers %}
-        <tr>
-            <td>{{ consumer.data.name }}</td>
-            <td>{{ consumer.data.document }}</td>
-            <td>{{ consumer.data.zip_code|default_if_none:""}}</td>
-            <td>{{ consumer.data.city }}</td>
-            <td>{{ consumer.data.state }}</td>
-            <td>{{ consumer.data.consumption }}</td>
-            <td>{{ consumer.data.distributor_tax }}</td>
-            <td>{% widthratio consumer.data.discount_rule.discount_value 1 100 %}%</td>
-            <td>{% widthratio consumer.data.discount_rule.cover_value 1 100 %}%</td>
-            <td>{{ consumer.annual_savings }}</td>
-            <td>{{ consumer.monthly_savings }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <button style="margin-top: 20px;">
-        <a href="create" style="text-decoration: none; color: black;">
-            Cadastrar Consumidor
-        </a>
-    </button>
-</body>
-
-</html>
+<table border="1" style="margin-top: 10px">
+    <tr>
+        <th>Nome do Consumidor</th>
+        <th>Documento</th>
+        <th>CEP</th>
+        <th>Cidade</th>
+        <th>Estado</th>
+        <th>Consumo(kWh)</th>
+        <th>Tarifa da Distribuidora</th>
+        <th>Desconto Aplicado</th>
+        <th>Cobertura</th>
+        <th>Economia Anual</th>
+        <th>Economia Mensal</th>
+    </tr>
+    {% for consumer in consumers %}
+    <tr>
+        <td>{{ consumer.data.name }}</td>
+        <td>{{ consumer.data.document }}</td>
+        <td>{{ consumer.data.zip_code|default_if_none:""}}</td>
+        <td>{{ consumer.data.city }}</td>
+        <td>{{ consumer.data.state }}</td>
+        <td>{{ consumer.data.consumption }}</td>
+        <td>{{ consumer.data.distributor_tax }}</td>
+        <td>{% widthratio consumer.data.discount_rule.discount_value 1 100 %}%</td>
+        <td>{% widthratio consumer.data.discount_rule.cover_value 1 100 %}%</td>
+        <td>{{ consumer.annual_savings }}</td>
+        <td>{{ consumer.monthly_savings }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

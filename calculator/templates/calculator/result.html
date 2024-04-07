@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Calculadora - Resultado</title>
-</head>
+{% block title %}
+Calculadora
+{% endblock %}
 
-<body>
-  <h2>Resultado</h2>
-  <p>Economia Anual: {{ annual_savings }}</p>
-  <p>Economia Mensal: {{ monthly_savings }}</p>
-  <p>Desconto Aplicado: {{ applied_discount }}</p>
-  <p>Cobertura: {{ coverage }}</p>
-</body>
-
-</html>
+{% block content %}
+<h2>Resultado</h2>
+<p>Economia Anual: {{ annual_savings }}</p>
+<p>Economia Mensal: {{ monthly_savings }}</p>
+<p>Desconto Aplicado: {{ applied_discount }}</p>
+<p>Cobertura: {{ coverage }}</p>
+{% endblock %}

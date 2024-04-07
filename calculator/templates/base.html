@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {% block title %}
+    {% endblock %}
+  </title>
+</head>
+
+<body>
+  <header>
+    <h1>Digital Grid</h1>
+    <nav>
+      <a href="/calculator" class="nav-link">Calculadora</a>
+      <a href="/consumer" class="nav-link">Consumidores</a>
+      <a href="/consumer/create" class="nav-link">Cadastrar Consumidor</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+
+</html>
+
+<style>
+  * {
+    font-family: sans-serif;
+    margin: 0
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 15px;
+    border-left: 1px solid black;
+  }
+
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    padding: 0 10px;
+  }
+
+  header nav {
+    display: flex;
+    flex-direction: row;
+  }
+
+  main {
+    padding: 20px;
+  }
+
+  /* global styles */
+  h2 {
+    margin-bottom: 20px;
+  }
+</style>
