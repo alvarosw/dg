@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .calculator_python import calculator
 from .models import Consumer
-from .forms import CalculatorForm
+from .forms import CalculatorForm, ConsumerFilterForm
 
 # TODO: Your list view should do the following tasks
 """
@@ -45,9 +45,20 @@ def calculate(request):
     return render(request, 'calculator/form.html', { 'form': form })
 
 def consumer_list(request):
+    filter_form = ConsumerFilterForm(request.GET)
     consumers = Consumer.objects.all().select_related('discount_rule')
-    data = []
 
+    if filter_form.is_valid():
+        consumer_type = filter_form.cleaned_data['consumer_type']
+        consumption_range = filter_form.cleaned_data['consumption_range']
+
+        if consumer_type:
+            consumers = consumers.filter(discount_rule__consumer_type=consumer_type)
+
+        if consumption_range:
+            consumers = consumers.filter(discount_rule__consumption_range=consumption_range)
+
+    data = []
     for consumer in consumers:
         monthly_savings = (
             consumer.consumption *
@@ -55,15 +66,14 @@ def consumer_list(request):
             consumer.discount_rule.discount_value *
             consumer.discount_rule.cover_value
         )
-        
+
         data.append({
             "data": consumer,
             "monthly_savings": round(monthly_savings, 2),
             "annual_savings": round(monthly_savings * 12, 2)
         })
 
-
-    return render(request, 'consumer/list.html', {'consumers': data })
+    return render(request, 'consumer/list.html', {'consumers': data, 'filter_form': filter_form})
 
 # TODO: Your create view should do the following tasks
 """Create a view to perform inclusion of consumers. The view should do:

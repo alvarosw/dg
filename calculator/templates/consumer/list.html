@@ -3,12 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Consumer List</title>
+    <title>Lista de Consumidores</title>
 </head>
 
 <body>
-    <h2>Consumer List</h2>
-    <table border="1">
+    <h2>Lista de Consumidores</h2>
+    <form method="GET">
+        {{ filter_form }}
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <table border="1" style="margin-top: 10px">
         <tr>
             <th>Nome do Consumidor</th>
             <th>Documento</th>
