@@ -3,17 +3,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Calculator</title>
+  <title>Calculadora</title>
 </head>
 
 <body>
-  <h2>Energy Consumption Calculator</h2>
+  <h2>Calculadora de Consumo de Energia</h2>
   <form action="" method="post">
     {% csrf_token %}
     <table style="text-align: left;">
       {{ form.as_table }}
     </table>
-    <button type="submit" style="margin-top: 10px;">Calculate</button>
+    <button type="submit" style="margin-top: 10px;">Calcular</button>
   </form>
 </body>
 
