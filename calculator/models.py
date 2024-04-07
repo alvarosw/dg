@@ -28,17 +28,4 @@ class Consumer(models.Model):
     distributor_tax = models.FloatField(
         "Tarifa da Distribuidora", blank=True, null=True
     )
-    discount_rule = models.ForeignKey(DiscountRules, on_delete=models.CASCADE, verbose_name="Regra de Desconto", null=True, blank=True)
-
-# TODO: Create the model DiscountRules below
-"""Fields:
--> Consumer type  
--> Consumption range
--> Cover value
--> Discount value
-The first three fields should be a select with the values provided in the table
-defined in the readme of the repository. Discount should be numerical
-"""
-
-# TODO: You must populate the consumer table with the data provided in the file consumers.xlsx
-#  and associate each one with the correct discount rule
+    discount_rule = models.ForeignKey(DiscountRules, on_delete=models.CASCADE, verbose_name="Regra de Desconto", null=False, blank=False)

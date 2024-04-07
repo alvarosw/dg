@@ -1,5 +1,10 @@
 from django import forms
-from .models import ConsumerType, ConsumptionRange
+from .models import (
+    ConsumerType,
+    ConsumptionRange,
+    Consumer,
+    DiscountRules
+)
 
 class CalculatorForm(forms.Form):
     consumption1 = forms.IntegerField(required=True, label='Consumo no Primeiro Mês')
@@ -22,3 +27,13 @@ class ConsumerFilterForm(forms.Form):
         required=False,
         label='Faixa de Consumo'
     )
+
+class DiscountRuleChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return f"{obj.consumer_type} {obj.consumption_range}"
+
+class ConsumerCreationForm(forms.ModelForm):
+    discount_rule = DiscountRuleChoiceField(queryset=DiscountRules.objects.all())
+    class Meta:
+        model = Consumer
+        fields = ['name', 'document', 'zip_code', 'city', 'state', 'consumption', 'distributor_tax', 'discount_rule']
