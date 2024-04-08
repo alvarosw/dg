@@ -63,3 +63,16 @@ class ConsumerCreationForm(forms.ModelForm):
     class Meta:
         model = Consumer
         fields = '__all__'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        document = cleaned_data.get('document')
+        consumer_type = cleaned_data.get('consumer_type')
+
+        if consumer_type == 'Residencial':
+            if len(document) != 11:
+                self.add_error('document', 'O documento deve ter 11 caracteres para o tipo de consumidor Residencial.')
+        else:
+            if len(document) != 14:
+                self.add_error('document', 'O documento deve ter 14 caracteres para consumidores do tipo Comercial e Industrial.')
+
