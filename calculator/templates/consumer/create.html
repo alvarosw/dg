@@ -13,4 +13,18 @@ Consumidor
   </table>
   <button type="submit" style="margin-top: 10px;">Salvar</button>
 </form>
+
+<script>
+  async function zipHandler(zipCode) {
+    if (zipCode.length === 9) {
+      const { localidade, uf } = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
+        .then(res => res.json());
+
+      if (localidade && uf) {
+        document.getElementById('id_city').value = localidade;
+        document.getElementById('id_state').value = uf;
+      }
+    }
+  }
+</script>
 {% endblock %}

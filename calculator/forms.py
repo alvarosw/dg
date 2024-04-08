@@ -33,7 +33,19 @@ class DiscountRuleChoiceField(forms.ModelChoiceField):
         return f"{obj.consumer_type} {obj.consumption_range}"
 
 class ConsumerCreationForm(forms.ModelForm):
-    discount_rule = DiscountRuleChoiceField(queryset=DiscountRules.objects.all(), label='Regra de Desconto')
+    discount_rule = DiscountRuleChoiceField(queryset=DiscountRules.objects.all(), required=True, label='Regra de Desconto')
+    zip_code = forms.CharField(
+        max_length=8, 
+        required=True, 
+        label='CEP', 
+        widget=forms.TextInput(
+            attrs={ 
+                'onchange' : 'zipHandler(this.value)',
+                'data-mask': '00000-000'
+            }
+        )   
+    )
+
     class Meta:
         model = Consumer
         fields = ['name', 'document', 'zip_code', 'city', 'state', 'consumption', 'distributor_tax', 'discount_rule']

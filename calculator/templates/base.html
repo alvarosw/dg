@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -24,6 +26,9 @@
     {% block content %}
     {% endblock %}
   </main>
+
+  <script src={% static 'jquery-3.7.1.min.js' %}></script>
+  <script src={% static 'jquery-mask.min.js' %}></script>
 </body>
 
 </html>
