@@ -16,7 +16,7 @@ Consumidor
 
 <script>
   async function zipHandler(zipCode) {
-    if (zipCode.length === 9) {
+    if (zipCode.length === 8) {
       const { localidade, uf } = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
         .then(res => res.json());
 
